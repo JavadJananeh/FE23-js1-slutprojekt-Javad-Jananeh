@@ -3,15 +3,10 @@ $(document).ready(function () {
     const BASE_URL = 'https://api.themoviedb.org/3';
     const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&api_key=' + API_KEY;
     const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-    const searchURL = BASE_URL + '/search/multi?api_key=' + API_KEY;
 
     const main = $('#main');
     const form = $('#form');
     const search = $('#search');
-
-    //// if stament for person
-    //// if stament for moive
-    /// with
 
     getMovies(API_URL);
 
@@ -41,19 +36,18 @@ $(document).ready(function () {
             const { title, poster_path, vote_average, overview, release_date } = movie;
             const movieEl = $('<div>').addClass('movie');
             movieEl.html(`
-            <img src="${IMG_URL + poster_path}" alt="${title}">
+                <img src="${IMG_URL + poster_path}" alt="${title}">
             
-            <div class="movie-info">
-                <h3>${title}</h3>
-                <span class="${getColor(vote_average)}">${vote_average}</span>
-            </div>
+                <div class="movie-info">
+                    <h3>${title}</h3>
+                    <span class="${getColor(vote_average)}">${vote_average}</span>
+                </div>
 
-            <div class="overview">
-                <h3>Overview</h3>
-                <p>${release_date}</p>
-                ${overview}
-            </div>
-            
+                <div class="overview">
+                    <h3>Overview</h3>
+                    <p>${release_date}</p>
+                    ${overview}
+                </div>
             `);
 
             main.append(movieEl);
@@ -70,19 +64,19 @@ $(document).ready(function () {
         }
     }
 
-    function showError(message) {
-        main.html(`<div class="error">${message}</div>`);
-    }
-
     form.on('submit', function (e) {
         e.preventDefault();
 
         const searchTerm = search.val();
 
         if (searchTerm) {
-            getMovies(searchURL + '&query=' + searchTerm);
+            getMovies(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${searchTerm}`);
         } else {
             getMovies(API_URL);
         }
     });
+
+    function showError(message) {
+        main.html(`<div class="error">${message}</div>`);
+    }
 });
